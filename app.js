@@ -1,22 +1,29 @@
 const Logger = require('./logger');
 const http = require('http');
+const logger = new Logger();
 
 const server = http.createServer((req, res) => {
   if (req.url === '/'){
     res.write('<b>Hello World</b>');
     res.end();
+    logger.log('Root Page has been Viewed');
   }
   if (req.url === '/api/courses'){
     res.write(JSON.stringify([ 1, 2, 3, 4 ]));
     res.end();
+    logger.log('Courses Page has been Viewed');
   }
-
 });
 
 
-server.listen(3003);
-console.log('listening on port 3003');
+server.listen(3001);
+console.log('listening on port 3001');
 
+// register a listener
+
+logger.on('messageLogged', (arg) => {
+  console.log('Listener called', arg);
+});
 
 
 // //register a listener
